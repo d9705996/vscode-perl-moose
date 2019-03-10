@@ -36,7 +36,9 @@ jobs:
       deploy:
         <<: *github
         prerelease: true
-    - stage: test package
+    - &test-package
+      stage: test package
+      os: windows
       name: "Test Extension Package"
       if: tag =~ /^v?[0-9]+\.[0-9]+\.[0-9]+/
       before_install:
@@ -44,6 +46,15 @@ jobs:
         - npm run build
         - export PKG_VERSION=$(npm run version --silent)
         - wget https://github.com/torrentalle/vscode-perl-moose/releases/download/$TRAVIS_TAG/perl-moose-$PKG_VERSION.vsix
+      install:
+        - npm run package:vscode
+      script:
+        - npm run package:install
+        - npm run package:test
+    - <<: *test-package
+      os: osx
+    - <<: *test-package
+      os: linux
       install:
         - xvfb-run npm run package:vscode
       script:
