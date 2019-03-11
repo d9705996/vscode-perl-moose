@@ -36,7 +36,7 @@ jobs:
       deploy:
         <<: *github
         prerelease: true
-    - &test-release
+    - &testrelease
       stage: test Release
       os: windows
       node_js: "10.12.0"
@@ -49,11 +49,11 @@ jobs:
         - wget https://github.com/torrentalle/vscode-perl-moose/releases/download/$TRAVIS_TAG/perl-moose-$PKG_VERSION.vsix
       script:
         - npm run test-package
-    - <<: *test-release
+    - <<: *testrelease
       os: osx
       node_js: "8.11.3"
       name: "Test extension package on OSX"
-    - <<: *test-release
+    - <<: *testrelease
       os: linux
       name: "Test extension package on Linux"
       script:
