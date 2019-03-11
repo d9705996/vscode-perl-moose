@@ -51,16 +51,19 @@ function downloadExecutableAndRunTests() {
    execute('node', ['./node_modules/vscode/bin/test'], env, runTests);
 }
 
-function installExtension(callback) {
-
+function installExtension(callback) {  
+   var run = executable;
    var args = [
-      executable,
       '--wait',
       '--install-extension='+ packageFile,
       '--extensions-dir=' + extensionsDir,
       '--user-data-dir=' + userDataDir
    ];
-   execute("bash", args, false, callback);
+   if (process.platform === 'linux') {
+      args.unshift(run)
+      run = "bash"
+   }
+   execute(run, args, false, callback);
    
 }
 
