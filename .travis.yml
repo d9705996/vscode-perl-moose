@@ -5,7 +5,7 @@ node_js: "11.0.0"
 stages:
   - test
   - release
-  - test package
+  - test Release
 
 jobs:
   include:
@@ -21,7 +21,7 @@ jobs:
       if: tag =~ /^v?[0-9]+\.[0-9]+\.[0-9]+$/
       before_install: npm install -g vsce
       install: npm install --production
-      script:  npm run package:generate
+      script:  vsce package
       deploy: &github
         provider: releases
         api_key: $GITHUB_TOKEN
@@ -36,10 +36,10 @@ jobs:
       deploy:
         <<: *github
         prerelease: true
-    - &test-package
-      stage: test package
+    - &test-release
+      stage: test Release
       os: windows
-      name: "Test package on Windows"
+      name: "Test extension package on Windows"
       if: tag =~ /^v?[0-9]+\.[0-9]+\.[0-9]+/
       install:
         - npm install
@@ -48,11 +48,11 @@ jobs:
         - wget https://github.com/torrentalle/vscode-perl-moose/releases/download/$TRAVIS_TAG/perl-moose-$PKG_VERSION.vsix
       script:
         - npm run test-package
-    - <<: *test-package
+    - <<: *test-release
       os: osx
-      name: "Test package on OSX"
-    - <<: *test-package
+      name: "Test extension package on OSX"
+    - <<: *test-release
       os: linux
-      name: "Test package on Linux"
+      name: "Test extension package on Linux"
       script:
         - xvfb-run npm run test-package
