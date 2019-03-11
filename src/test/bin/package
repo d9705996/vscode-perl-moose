@@ -54,7 +54,6 @@ function downloadExecutableAndRunTests() {
 function installExtension(callback) {  
    var run = executable;
    var args = [
-      '--wait',
       '--install-extension='+ packageFile,
       '--extensions-dir=' + extensionsDir,
       '--user-data-dir=' + userDataDir

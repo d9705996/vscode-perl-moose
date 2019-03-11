@@ -1,7 +1,6 @@
 sudo: false
 dist: xenial
 language: node_js
-node_js: "11.0.0"
 stages:
   - test
   - release
@@ -10,6 +9,7 @@ stages:
 jobs:
   include:
     - stage: test
+      node_js: "11.0.0"
       name: "Test VSCode Extension"
       install: npm install
       before_script: npm run build
@@ -18,6 +18,7 @@ jobs:
     - &release
       stage: release
       name: "Publish GitHub Release"
+      node_js: "11.0.0"
       if: tag =~ /^v?[0-9]+\.[0-9]+\.[0-9]+$/
       before_install: npm install -g vsce
       install: npm install --production
@@ -32,6 +33,7 @@ jobs:
           tags: true
     - <<: *release
       name: "Publish GitHub Pre-release"
+      node_js: "11.0.0"
       if: tag =~ /^v?[0-9]+\.[0-9]+\.[0-9]+.+$/
       deploy:
         <<: *github
@@ -39,7 +41,6 @@ jobs:
     - &testrelease
       stage: test Release
       os: windows
-      node_js: "10.12.0"
       name: "Test extension package on Windows"
       if: tag =~ /^v?[0-9]+\.[0-9]+\.[0-9]+/
       install:
@@ -55,6 +56,7 @@ jobs:
       name: "Test extension package on OSX"
     - <<: *testrelease
       os: linux
+      node_js: "11.0.0"
       name: "Test extension package on Linux"
       script:
         - xvfb-run npm run test-package
