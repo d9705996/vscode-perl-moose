@@ -42,6 +42,8 @@ jobs:
       node_js: "10"
       name: "Test extension package on Windows"
       if: tag =~ /^v?[0-9]+\.[0-9]+\.[0-9]+/
+      env:
+        - GITHUB_TOKEN=none
       install:
         - npm install
         - npm run build
