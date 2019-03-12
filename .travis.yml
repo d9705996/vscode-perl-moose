@@ -48,7 +48,9 @@ jobs:
         - npm install
         - npm run build
         - export PKG_VERSION=$(npm run version --silent)
-        - wget https://github.com/torrentalle/vscode-perl-moose/releases/download/$TRAVIS_TAG/perl-moose-$PKG_VERSION.vsix
+        - echo $PKG_VERSION
+        - echo "https://github.com/torrentalle/vscode-perl-moose/releases/download/$TRAVIS_TAG/perl-moose-$PKG_VERSION.vsix"
+        - wget "https://github.com/torrentalle/vscode-perl-moose/releases/download/$TRAVIS_TAG/perl-moose-$PKG_VERSION.vsix"
       script:
         - npm run test-package
     - <<: *testrelease
