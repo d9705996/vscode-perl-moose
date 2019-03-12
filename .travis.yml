@@ -48,17 +48,17 @@ jobs:
         - npm install
         - npm run build
         - export PKG_VERSION=$(npm run version --silent)
-        - echo $PKG_VERSION
-        - echo "https://github.com/torrentalle/vscode-perl-moose/releases/download/$TRAVIS_TAG/perl-moose-$PKG_VERSION.vsix"
         - wget "https://github.com/torrentalle/vscode-perl-moose/releases/download/$TRAVIS_TAG/perl-moose-$PKG_VERSION.vsix"
       script:
         - npm run test-package
     - <<: *testrelease
       os: linux
+      node_js: "11.0.0"
       name: "Test extension package on Linux"
       script:
         - xvfb-run npm run test-package
     - <<: *testrelease
       name: "Test extension package on Windows"
+      node_js: "11.0.0"
       os: windows
     # https://travis-ci.community/t/current-known-issues-please-read-this-before-posting-a-new-topic/264/8
