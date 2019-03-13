@@ -2,18 +2,26 @@
   "name": "perl-moose",
   "displayName": "Perl Moose",
   "description": "Perl Moose support for Visual Studio Code",
-  "version": "1.0.0-rc2",
+  "version": "1.0.0",
   "publisher": "torrentalle",
   "repository": {
     "type": "git",
     "url": "https://github.com/torrentalle/vscode-perl-moose"
   },
+  "bugs": {
+    "url": "https://github.com/torrentalle/vscode-perl-moose/issues"
+  },
   "license": "MIT",
   "engines": {
-    "vscode": "^1.30.0"
+    "vscode": "^1.21.0"
   },
   "categories": [
     "Programming Languages"
+  ],
+  "keywords": [
+    "Perl::Moose",
+    "perl", 
+    "moose"
   ],
   "icon": "images/moose.png",
   "contributes": {
@@ -35,11 +43,11 @@
     "vscode": "^1.1.21"
   },
   "scripts": {
-    "version": "node -p \"require('./package.json').version\"",
-    "build": "tsc -p tsconfig.json",
-    "generate:syntax": "js-yaml src/syntaxes/perl-moose.tmLanguage.yaml > syntaxes/perl-moose.tmLanguage.json",
-    "prepare": "node ./node_modules/vscode/bin/install",
-    "test": "node ./node_modules/vscode/bin/test",
-    "test-package": "node ./src/test/bin/package"
+    "postinstall": "node ./node_modules/vscode/bin/install",
+    "build": "tsc -p tsconfig.json && npm run build:syntax --silent",
+    "build:syntax": "js-yaml src/syntaxes/perl-moose.tmLanguage.yaml > syntaxes/perl-moose.tmLanguage.json",
+    "test": "CODE_DISABLE_EXTENSIONS=1 node ./node_modules/vscode/bin/test",
+    "test:package": "node ./scripts/test-package.js",
+    "version": "node -p \"require('./package.json').version\""
   }
 }

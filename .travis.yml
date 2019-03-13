@@ -19,8 +19,7 @@ jobs:
       stage: release
       name: "Publish GitHub Release"
       if: tag =~ /^v?[0-9]+\.[0-9]+\.[0-9]+$/
-      before_install: npm install -g vsce
-      install: npm install --production
+      install: npm install -g vsce
       script:  vsce package
       deploy: &github
         provider: releases
@@ -50,7 +49,7 @@ jobs:
         - export PKG_VERSION=$(npm run version --silent)
         - wget "https://github.com/torrentalle/vscode-perl-moose/releases/download/$TRAVIS_TAG/perl-moose-$PKG_VERSION.vsix"
       script:
-        - npm run test-package
+        - npm run test:package
     - <<: *testrelease
       os: osx
       node_js: "8.11.3"
@@ -59,4 +58,4 @@ jobs:
       os: linux
       name: "Test extension package on Linux"
       script:
-        - xvfb-run npm run test-package
+        - xvfb-run npm run test:package
