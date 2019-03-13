@@ -5,7 +5,7 @@ node_js: "11.0.0"
 stages:
   - test
   - release
-  - test Release
+  - test release
 
 jobs:
   include:
@@ -32,17 +32,17 @@ jobs:
         on:
           tags: true
           repo: torrentalle/vscode-perl-moose
+          branch: travis3
     - <<: *release
       name: "Publish GitHub Pre-release"
       if: tag =~ /^v?[0-9]+\.[0-9]+\.[0-9]+.+$/
       deploy:
         <<: *github
         prerelease: true
-    - &testrelease
-      stage: test Release
-      os: osx
-      node_js: "8.11.3"
-      name: "Test extension package on OSX"
+    - &testrelease       # https://travis-ci.community/t/current-known-issues-please-read-this-before-posting-a-new-topic/264/8
+      stage: test release
+      name: "Test extension package on Windows"
+      os: windows
       if: tag =~ /^v?[0-9]+\.[0-9]+\.[0-9]+/
       install:
         - npm install
@@ -52,13 +52,11 @@ jobs:
       script:
         - npm run test-package
     - <<: *testrelease
+      os: osx
+      node_js: "8.11.3"
+      name: "Test extension package on OSX"
+    - <<: *testrelease
       os: linux
-      node_js: "11.0.0"
       name: "Test extension package on Linux"
       script:
         - xvfb-run npm run test-package
-    - <<: *testrelease
-      name: "Test extension package on Windows"
-      node_js: "11.0.0"
-      os: windows
-    # https://travis-ci.community/t/current-known-issues-please-read-this-before-posting-a-new-topic/264/8
