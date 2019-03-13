@@ -16,8 +16,8 @@ var userDataDir = path.join(currentPath, '.vscode-test');
 var extensionsDir = path.join(currentPath, '.vscode-test/extensions');
 var codeExtensionPath = path.join(currentPath, 'testFixture/empty-extension');
 
-var windowsExecutable = path.join(testRunFolderAbsolute, 'Code.exe');
-var darwinExecutable = path.join(testRunFolderAbsolute, 'Visual Studio Code.app', 'Contents', 'Resources', 'app','bin','code');
+var windowsExecutable = path.join(testRunFolderAbsolute, 'bin',' code');
+var darwinExecutable = path.join(testRunFolderAbsolute, 'Visual Studio Code.app', 'Contents', 'Resources', 'app', 'bin',' code');
 var  linuxExecutable = path.join(testRunFolderAbsolute, 'VSCode-linux-x64', 'bin', 'code');
 if (['0.10.1', '0.10.2', '0.10.3', '0.10.4', '0.10.5', '0.10.6', '0.10.7', '0.10.8', '0.10.9'].indexOf(version) >= 0) {
     linuxExecutable = path.join(testRunFolderAbsolute, 'VSCode-linux-x64', 'Code');
@@ -59,9 +59,6 @@ function installExtension(callback) {
       '--extensions-dir=' + extensionsDir,
       '--user-data-dir=' + userDataDir
    ];
-   if (process.platform === 'win32') {
-      run = args.shift();
-   }
    execute(run, args, false, callback);
    
 }
